@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "invisibilitycloak",
+  "version": "${version}",
+  "name": "Invisibility Cloak",
+  "description": "This cloak makes you completely invisible.",
+  "authors": ["Affehund"],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/invisibilitycloak",
+    "sources": "https://github.com/Affehund/InvisibilityCloak/",
+    "issues": "https://github.com/Affehund/InvisibilityCloak/issues"
+  },
+  "license": "GPLv3",
+  "icon": "logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.affehund.invisibilitycloak.InvisibilityCloak"
+    ]
+  },
+  "mixins": [
+    "invisibilitycloak.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.17.x"
+  }
+}

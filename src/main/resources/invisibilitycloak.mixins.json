@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.affehund.invisibilitycloak.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "ArmorFeatureRendererMixin",
+    "HeldItemFeatureRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
