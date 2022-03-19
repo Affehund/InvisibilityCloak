@@ -1,0 +1,10 @@
+{
+  "_comment": "Translation (en_us) by Affehund",
+  "item.invisibilitycloak.cloak_of_invisibility": "Cloak of Invisibility",
+  "text.autoconfig.invisibilitycloak.option.HIDE_FLAME_ANIMATION": "Hide flame animation",
+  "text.autoconfig.invisibilitycloak.option.HIDE_HITBOX": "Hide hitbox",
+  "text.autoconfig.invisibilitycloak.option.HIDE_SHADOW": "Hide shadow",
+  "text.autoconfig.invisibilitycloak.option.INVISIBLE_FOR_MOBS": "Invisible for mobs",
+  "text.autoconfig.invisibilitycloak.option.SHOW_TOOLTIP": "Show tooltip",
+  "tooltip.invisibilitycloak.cloak_of_invisibility": "Wear this on your chest to become completely invisible."
+}

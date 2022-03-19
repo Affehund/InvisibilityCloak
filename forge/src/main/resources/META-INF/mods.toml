@@ -1,0 +1,26 @@
+modLoader = "javafml" #mandatory
+loaderVersion = "[40,)" #mandatory
+license = "${mod_license}"
+issueTrackerURL = "${mod_issue_tracker}" #optional
+[[mods]] #mandatory
+modId = "${mod_id}" #mandatory
+version = "${minecraft_version}-${version}" #mandatory
+displayName = "${mod_name}" #mandatory
+displayURL = "${mod_homepage}" #optional
+logoFile = "icon.png" #optional
+logoBlur = false # optional
+authors = "${mod_author}" #optional
+description = '''${mod_description}''' # mandatory
+
+[[dependencies.invisibilitycloak]] #optional
+modId = "forge" #mandatory
+mandatory = true #mandatory
+versionRange = "[40,)" #mandatory
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.invisibilitycloak]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.2,1.19)"
+ordering = "NONE"
+side = "BOTH"
