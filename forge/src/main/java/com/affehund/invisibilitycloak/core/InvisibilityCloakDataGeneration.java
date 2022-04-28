@@ -61,9 +61,8 @@ public class InvisibilityCloakDataGeneration {
         @Override
         protected void buildCraftingRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
             ShapedRecipeBuilder.shaped(InvisibilityCloakForge.INVISIBILITY_CLOAK_ITEM.get()).pattern("fsf").pattern("ded").pattern("f f")
-                    .define('f', Items.FEATHER).unlockedBy("has_feather", has(Items.FEATHER)).define('s', Items.STRING).unlockedBy("has_string", has(Items.STRING)).define('d', Items.BLACK_DYE)
-                    .unlockedBy("has_black_dye", has(Items.BLACK_DYE)).define('e', Items.ELYTRA)
-                    .unlockedBy("has_elytra", has(Items.ELYTRA)).save(consumer);
+                    .define('f', Items.FEATHER).define('s', Items.STRING).define('d', Items.BLACK_DYE)
+                    .define('e', Items.ELYTRA).unlockedBy("has_elytra", has(Items.ELYTRA)).save(consumer);
         }
     }
 
