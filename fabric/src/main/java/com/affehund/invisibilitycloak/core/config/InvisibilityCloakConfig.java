@@ -1,9 +1,9 @@
 package com.affehund.invisibilitycloak.core.config;
 
-import blue.endless.jankson.Comment;
 import com.affehund.invisibilitycloak.ModConstants;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
 @Config(name = ModConstants.MOD_ID)
 public class InvisibilityCloakConfig implements ConfigData {

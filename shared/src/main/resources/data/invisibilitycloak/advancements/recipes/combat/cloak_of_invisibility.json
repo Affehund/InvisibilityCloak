@@ -6,42 +6,6 @@
     ]
   },
   "criteria": {
-    "has_feather": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:feather"
-            ]
-          }
-        ]
-      }
-    },
-    "has_string": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:string"
-            ]
-          }
-        ]
-      }
-    },
-    "has_black_dye": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:black_dye"
-            ]
-          }
-        ]
-      }
-    },
     "has_elytra": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
@@ -63,9 +27,6 @@
   },
   "requirements": [
     [
-      "has_feather",
-      "has_string",
-      "has_black_dye",
       "has_elytra",
       "has_the_recipe"
     ]
