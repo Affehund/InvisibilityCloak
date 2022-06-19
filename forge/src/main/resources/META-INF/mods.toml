@@ -1,5 +1,5 @@
 modLoader = "javafml" #mandatory
-loaderVersion = "[40,)" #mandatory
+loaderVersion = "[41,)" #mandatory
 license = "${mod_license}"
 issueTrackerURL = "${mod_issue_tracker}" #optional
 [[mods]] #mandatory
@@ -15,12 +15,12 @@ description = '''${mod_description}''' # mandatory
 [[dependencies.invisibilitycloak]] #optional
 modId = "forge" #mandatory
 mandatory = true #mandatory
-versionRange = "[40,)" #mandatory
+versionRange = "[41,)" #mandatory
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.invisibilitycloak]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18.2,1.19)"
+versionRange = "[1.19,1.20)"
 ordering = "NONE"
 side = "BOTH"

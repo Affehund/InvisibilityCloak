@@ -12,6 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.codehaus.plexus.util.StringUtils;
 
 import javax.annotation.Nonnull;
@@ -78,7 +79,7 @@ public class InvisibilityCloakDataGeneration {
         }
 
         private void singleTexture(Item item) {
-            var registryName = item.getRegistryName();
+            var registryName = ForgeRegistries.ITEMS.getKey(item);
             this.singleTexture(Objects.requireNonNull(registryName).getPath(), new ResourceLocation("item/generated"), "layer0", this.modLoc("item/" + registryName.getPath()));
         }
     }

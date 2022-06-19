@@ -69,7 +69,7 @@ public class InvisibilityCloakForge {
         if (ModUtils.isCuriosLoaded()) {
             var stack = event.getObject();
             var item = stack.getItem();
-            if (item.getRegistryName() != null && item.equals(INVISIBILITY_CLOAK_ITEM.get())) {
+            if (item.equals(INVISIBILITY_CLOAK_ITEM.get())) {
                 event.addCapability(new ResourceLocation(ModConstants.MOD_ID, ModConstants.CURIOS_MOD_ID), new ICapabilityProvider() {
                     final ICurio curio = new ICurio() {
                         @Override
@@ -104,14 +104,11 @@ public class InvisibilityCloakForge {
     private void gatherData(GatherDataEvent event) {
         var generator = event.getGenerator();
         var existingFileHelper = event.getExistingFileHelper();
+        var isClientProvider = event.includeClient();
 
-        if (event.includeServer()) {
-            generator.addProvider(new InvisibilityCloakDataGeneration.RecipeGen(generator));
-        }
-        if (event.includeClient()) {
-            generator.addProvider(new InvisibilityCloakDataGeneration.LanguageGen(generator, "de_de"));
-            generator.addProvider(new InvisibilityCloakDataGeneration.LanguageGen(generator, "en_us"));
-            generator.addProvider(new InvisibilityCloakDataGeneration.ItemModelGen(generator, ModConstants.MOD_ID, existingFileHelper));
-        }
+        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.RecipeGen(generator));
+        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.LanguageGen(generator, "de_de"));
+        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.LanguageGen(generator, "en_us"));
+        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.ItemModelGen(generator, ModConstants.MOD_ID, existingFileHelper));
     }
 }

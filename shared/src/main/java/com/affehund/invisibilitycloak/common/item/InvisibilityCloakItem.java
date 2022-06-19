@@ -4,7 +4,6 @@ import com.affehund.invisibilitycloak.ModConstants;
 import com.affehund.invisibilitycloak.core.ModUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
@@ -45,8 +44,9 @@ public class InvisibilityCloakItem extends Item implements Wearable {
 
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        if (ModUtils.showTooltip())
-            tooltip.add(new TranslatableComponent(ModConstants.TOOLTIP_CLOAK_OF_INVISIBILITY).withStyle(ChatFormatting.GRAY));
+        if (ModUtils.showTooltip()) {
+            tooltip.add(Component.translatable(ModConstants.TOOLTIP_CLOAK_OF_INVISIBILITY).withStyle(ChatFormatting.GRAY));
+        }
     }
 
     @Override
