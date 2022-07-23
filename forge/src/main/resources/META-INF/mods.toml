@@ -15,7 +15,7 @@ description = '''${mod_description}''' # mandatory
 [[dependencies.invisibilitycloak]] #optional
 modId = "forge" #mandatory
 mandatory = true #mandatory
-versionRange = "[41,)" #mandatory
+versionRange = "[41.0.94,)" #mandatory
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.invisibilitycloak]]
