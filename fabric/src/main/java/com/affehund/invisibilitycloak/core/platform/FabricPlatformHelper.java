@@ -2,20 +2,21 @@ package com.affehund.invisibilitycloak.core.platform;
 
 import com.affehund.invisibilitycloak.InvisibilityCloakFabric;
 import com.affehund.invisibilitycloak.core.ModUtils;
+import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+import java.util.Optional;
 
 public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public boolean isModLoaded(String modId) {
         return FabricLoader.getInstance().isModLoaded(modId);
-    }
-
-    @Override
-    public boolean hasCloakCharm(Player player) {
-        return ModUtils.isTrinketsLoaded() && TrinketsApi.getTrinketComponent(player).map(c -> c.isEquipped(InvisibilityCloakFabric.INVISIBILITY_CLOAK_ITEM)).orElse(false);
     }
 
     @Override
@@ -41,5 +42,12 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public boolean showTooltip() {
         return InvisibilityCloakFabric.CONFIG.SHOW_TOOLTIP;
+    }
+
+    @Override
+    public ItemStack getCloakInAdditionalSlot(Player player) {
+        if (!ModUtils.isTrinketsLoaded()) return null;
+        Optional<List<Tuple<SlotReference, ItemStack>>> optionalTuples = TrinketsApi.getTrinketComponent(player).map(t -> t.getEquipped(InvisibilityCloakFabric.INVISIBILITY_CLOAK_ITEM));
+        return optionalTuples.flatMap(tuples -> tuples.stream().map(Tuple::getB).findFirst()).orElse(null);
     }
 }

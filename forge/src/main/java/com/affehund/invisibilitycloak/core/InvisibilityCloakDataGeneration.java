@@ -2,8 +2,9 @@ package com.affehund.invisibilitycloak.core;
 
 import com.affehund.invisibilitycloak.InvisibilityCloakForge;
 import com.affehund.invisibilitycloak.ModConstants;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
@@ -22,9 +23,8 @@ import java.util.function.Consumer;
 
 public class InvisibilityCloakDataGeneration {
     public static class LanguageGen extends LanguageProvider {
-
-        public LanguageGen(DataGenerator gen, String locale) {
-            super(gen, ModConstants.MOD_ID, locale);
+        public LanguageGen(PackOutput packOutput, String locale) {
+            super(packOutput, ModConstants.MOD_ID, locale);
         }
 
         @Override
@@ -55,32 +55,35 @@ public class InvisibilityCloakDataGeneration {
     }
 
     public static class RecipeGen extends RecipeProvider {
-        public RecipeGen(DataGenerator gen) {
-            super(gen);
+
+
+        public RecipeGen(PackOutput packOutput) {
+            super(packOutput);
         }
 
         @Override
-        protected void buildCraftingRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
-            ShapedRecipeBuilder.shaped(InvisibilityCloakForge.INVISIBILITY_CLOAK_ITEM.get()).pattern("fsf").pattern("ded").pattern("f f")
+        protected void buildRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
+            ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, InvisibilityCloakForge.INVISIBILITY_CLOAK_ITEM.get()).pattern("fsf").pattern("ded").pattern("f f")
                     .define('f', Items.FEATHER).define('s', Items.STRING).define('d', Items.BLACK_DYE)
                     .define('e', Items.ELYTRA).unlockedBy("has_elytra", has(Items.ELYTRA)).save(consumer);
         }
     }
 
     public static class ItemModelGen extends ItemModelProvider {
-
-        public ItemModelGen(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
-            super(generator, modid, existingFileHelper);
+        public ItemModelGen(PackOutput packOutput, ExistingFileHelper existingFileHelper) {
+            super(packOutput, ModConstants.MOD_ID, existingFileHelper);
         }
 
         @Override
         protected void registerModels() {
-            this.singleTexture(InvisibilityCloakForge.INVISIBILITY_CLOAK_ITEM.get());
+            this.cloakTexture(InvisibilityCloakForge.INVISIBILITY_CLOAK_ITEM.get());
         }
 
-        private void singleTexture(Item item) {
-            var registryName = ForgeRegistries.ITEMS.getKey(item);
-            this.singleTexture(Objects.requireNonNull(registryName).getPath(), new ResourceLocation("item/generated"), "layer0", this.modLoc("item/" + registryName.getPath()));
+        private void cloakTexture(Item item) {
+            var resourceLocation = Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item));
+            var parent = this.getExistingFile(mcLoc("item/generated"));
+            var overrideModel = this.getBuilder(resourceLocation + "_broken").parent(parent).texture("layer0", new ResourceLocation(resourceLocation.getNamespace(), "item/" + resourceLocation.getPath() + "_broken"));
+            this.getBuilder(resourceLocation.toString()).parent(parent).texture("layer0", new ResourceLocation(resourceLocation.getNamespace(), "item/" + resourceLocation.getPath())).override().predicate(new ResourceLocation(ModConstants.MOD_ID, "broken"), 1.0f).model(overrideModel).end();
         }
     }
 }

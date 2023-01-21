@@ -1,24 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "fsf",
-    "ded",
-    "f f"
-  ],
+  "category": "equipment",
   "key": {
-    "f": {
-      "item": "minecraft:feather"
-    },
-    "s": {
-      "item": "minecraft:string"
-    },
     "d": {
       "item": "minecraft:black_dye"
     },
     "e": {
       "item": "minecraft:elytra"
+    },
+    "f": {
+      "item": "minecraft:feather"
+    },
+    "s": {
+      "item": "minecraft:string"
     }
   },
+  "pattern": [
+    "fsf",
+    "ded",
+    "f f"
+  ],
   "result": {
     "item": "invisibilitycloak:cloak_of_invisibility"
   }

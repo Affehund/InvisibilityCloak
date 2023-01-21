@@ -1,5 +1,13 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "invisibilitycloak:item/cloak_of_invisibility_broken",
+      "predicate": {
+        "invisibilitycloak:broken": 1.0
+      }
+    }
+  ],
   "textures": {
     "layer0": "invisibilitycloak:item/cloak_of_invisibility"
   }

@@ -18,17 +18,17 @@ public class EntityRenderDispatcherMixin {
 
     @Inject(method = "renderFlame(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
     private void renderFlame(PoseStack poseStack, MultiBufferSource multiBufferSource, Entity entity, CallbackInfo ci) {
-        if (ModUtils.hideFlameAnimation() && entity instanceof Player player && ModUtils.hasCloak(player))
+        if (ModUtils.hideFlameAnimation() && entity instanceof Player player && ModUtils.hasCloakEquipped(player))
             ci.cancel();
     }
 
     @Inject(method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;F)V", at = @At("HEAD"), cancellable = true)
     private static void renderHitbox(PoseStack poseStack, VertexConsumer vertexConsumer, Entity entity, float tickDelta, CallbackInfo ci) {
-        if (ModUtils.hideHitbox() && entity instanceof Player player && ModUtils.hasCloak(player)) ci.cancel();
+        if (ModUtils.hideHitbox() && entity instanceof Player player && ModUtils.hasCloakEquipped(player)) ci.cancel();
     }
 
     @Inject(method = "renderShadow(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/Entity;FFLnet/minecraft/world/level/LevelReader;F)V", at = @At("HEAD"), cancellable = true)
     private static void renderShadow(PoseStack poseStack, MultiBufferSource multiBufferSource, Entity entity, float opacity, float tickDelta, LevelReader levelReader, float $$6, CallbackInfo ci) {
-        if (ModUtils.hideShadow() && entity instanceof Player player && ModUtils.hasCloak(player)) ci.cancel();
+        if (ModUtils.hideShadow() && entity instanceof Player player && ModUtils.hasCloakEquipped(player)) ci.cancel();
     }
 }

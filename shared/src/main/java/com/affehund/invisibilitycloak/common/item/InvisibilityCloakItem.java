@@ -25,6 +25,10 @@ public class InvisibilityCloakItem extends Item implements Wearable {
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
     }
 
+    public static boolean isUsable(ItemStack itemStack) {
+        return !itemStack.isDamageableItem() || itemStack.getDamageValue() < itemStack.getMaxDamage() - 1;
+    }
+
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand interactionHand) {
         var itemStack = player.getItemInHand(interactionHand);
@@ -54,8 +58,9 @@ public class InvisibilityCloakItem extends Item implements Wearable {
         return SoundEvents.ARMOR_EQUIP_ELYTRA;
     }
 
+    // on piece of membrane repairs by 188 durability points
     @Override
-    public boolean isEnchantable(@NotNull ItemStack itemStack) {
-        return false;
+    public boolean isValidRepairItem(@NotNull ItemStack stack1, ItemStack stack2) {
+        return stack2.is(Items.PHANTOM_MEMBRANE);
     }
 }

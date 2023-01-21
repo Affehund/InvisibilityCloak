@@ -21,7 +21,7 @@ public class InvisibilityCloakConfig {
 
     private static void setupCommonConfig(ForgeConfigSpec.Builder builder) {
         builder.comment(ModConstants.MOD_NAME + "Common Config");
-        INVISIBLE_FOR_MOBS = builder.comment("Whether you are invisible for mobs when wearing the cloak of invisibility.").define("visible_for_mobs", true);
+        INVISIBLE_FOR_MOBS = builder.comment("Whether you are invisible for mobs when wearing the cloak of invisibility.").define("invisible_for_mobs", true);
         HIDE_FLAME_ANIMATION = builder.comment("Whether the flame animation is hidden when wearing the cloak.").define("hide_flame_animation", true);
         HIDE_HITBOX = builder.comment("Whether your hitbox is hidden when wearing the cloak.").define("hide_hitbox", true);
         HIDE_SHADOW = builder.comment("Whether your shadow is hidden when wearing the cloak.").define("hide_shadow", true);

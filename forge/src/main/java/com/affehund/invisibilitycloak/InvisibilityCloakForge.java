@@ -7,22 +7,20 @@ import com.affehund.invisibilitycloak.core.ModUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -40,13 +38,12 @@ public class InvisibilityCloakForge {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModConstants.MOD_ID);
 
-    public static final RegistryObject<Item> INVISIBILITY_CLOAK_ITEM = ITEMS.register(ModConstants.CLOAK_OF_INVISIBILITY,
-            () -> new InvisibilityCloakItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT).rarity(Rarity.UNCOMMON).setNoRepair()) {
-                @Override
-                public EquipmentSlot getEquipmentSlot(ItemStack stack) {
-                    return EquipmentSlot.CHEST;
-                }
-            });
+    public static final RegistryObject<Item> INVISIBILITY_CLOAK_ITEM = ITEMS.register(ModConstants.CLOAK_OF_INVISIBILITY, () -> new InvisibilityCloakItem(new Item.Properties().stacksTo(1).durability(ModConstants.CLOAK_DURABILITY).rarity(Rarity.UNCOMMON)) {
+        @Override
+        public EquipmentSlot getEquipmentSlot(ItemStack stack) {
+            return EquipmentSlot.CHEST;
+        }
+    });
 
     public InvisibilityCloakForge() {
         ModConstants.LOGGER.debug("Loading up {}...", ModConstants.MOD_NAME);
@@ -56,9 +53,10 @@ public class InvisibilityCloakForge {
         forgeEventBus.register(this);
 
         var modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        ITEMS.register(modEventBus);
+        modEventBus.addListener(this::buildContents);
         modEventBus.addListener(this::enqueueIMC);
         modEventBus.addListener(this::gatherData);
+        ITEMS.register(modEventBus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, InvisibilityCloakConfig.COMMON_SPEC);
 
@@ -93,6 +91,12 @@ public class InvisibilityCloakForge {
         }
     }
 
+    private void buildContents(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            event.getEntries().putAfter(new ItemStack(Items.ELYTRA), new ItemStack(INVISIBILITY_CLOAK_ITEM.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+    }
+
     private void enqueueIMC(InterModEnqueueEvent event) {
         if (ModUtils.isCuriosLoaded()) {
             InterModComms.sendTo(ModConstants.CURIOS_MOD_ID, SlotTypeMessage.REGISTER_TYPE,
@@ -103,12 +107,17 @@ public class InvisibilityCloakForge {
 
     private void gatherData(GatherDataEvent event) {
         var generator = event.getGenerator();
+        var packOutput = generator.getPackOutput();
         var existingFileHelper = event.getExistingFileHelper();
         var isClientProvider = event.includeClient();
+        var isServerProvider = event.includeServer();
 
-        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.RecipeGen(generator));
-        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.LanguageGen(generator, "de_de"));
-        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.LanguageGen(generator, "en_us"));
-        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.ItemModelGen(generator, ModConstants.MOD_ID, existingFileHelper));
+        // server side generators
+        generator.addProvider(isServerProvider, new InvisibilityCloakDataGeneration.RecipeGen(packOutput));
+
+        // client side generators
+        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.LanguageGen(packOutput, "de_de"));
+        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.LanguageGen(packOutput, "en_us"));
+        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.ItemModelGen(packOutput, existingFileHelper));
     }
 }
