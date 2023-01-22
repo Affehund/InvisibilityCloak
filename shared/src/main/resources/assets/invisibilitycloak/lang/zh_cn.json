@@ -1,0 +1,10 @@
+{
+  "_comment": "Translation (zh_cn) by Radical",
+  "item.invisibilitycloak.cloak_of_invisibility": "隐身斗篷",
+  "text.autoconfig.invisibilitycloak.option.HIDE_FLAME_ANIMATION": "隐藏灼烧动画",
+  "text.autoconfig.invisibilitycloak.option.HIDE_HITBOX": "隐藏碰撞箱",
+  "text.autoconfig.invisibilitycloak.option.HIDE_SHADOW": "隐藏实体阴影",
+  "text.autoconfig.invisibilitycloak.option.INVISIBLE_FOR_MOBS": "对生物隐身",
+  "text.autoconfig.invisibilitycloak.option.SHOW_TOOLTIP": "展示详情",
+  "tooltip.invisibilitycloak.cloak_of_invisibility": "穿戴后进入完全隐身状态"
+}
