@@ -7,14 +7,16 @@ import com.affehund.invisibilitycloak.core.ModUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -38,7 +40,7 @@ public class InvisibilityCloakForge {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModConstants.MOD_ID);
 
-    public static final RegistryObject<Item> INVISIBILITY_CLOAK_ITEM = ITEMS.register(ModConstants.CLOAK_OF_INVISIBILITY, () -> new InvisibilityCloakItem(new Item.Properties().stacksTo(1).durability(ModConstants.CLOAK_DURABILITY).rarity(Rarity.UNCOMMON)) {
+    public static final RegistryObject<Item> INVISIBILITY_CLOAK_ITEM = ITEMS.register(ModConstants.CLOAK_OF_INVISIBILITY, () -> new InvisibilityCloakItem(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT).stacksTo(1).durability(ModConstants.CLOAK_DURABILITY).rarity(Rarity.UNCOMMON)) {
         @Override
         public EquipmentSlot getEquipmentSlot(ItemStack stack) {
             return EquipmentSlot.CHEST;
@@ -53,7 +55,6 @@ public class InvisibilityCloakForge {
         forgeEventBus.register(this);
 
         var modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.addListener(this::buildContents);
         modEventBus.addListener(this::enqueueIMC);
         modEventBus.addListener(this::gatherData);
         ITEMS.register(modEventBus);
@@ -91,12 +92,6 @@ public class InvisibilityCloakForge {
         }
     }
 
-    private void buildContents(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.getEntries().putAfter(new ItemStack(Items.ELYTRA), new ItemStack(INVISIBILITY_CLOAK_ITEM.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-        }
-    }
-
     private void enqueueIMC(InterModEnqueueEvent event) {
         if (ModUtils.isCuriosLoaded()) {
             InterModComms.sendTo(ModConstants.CURIOS_MOD_ID, SlotTypeMessage.REGISTER_TYPE,
@@ -107,17 +102,16 @@ public class InvisibilityCloakForge {
 
     private void gatherData(GatherDataEvent event) {
         var generator = event.getGenerator();
-        var packOutput = generator.getPackOutput();
         var existingFileHelper = event.getExistingFileHelper();
         var isClientProvider = event.includeClient();
         var isServerProvider = event.includeServer();
 
         // server side generators
-        generator.addProvider(isServerProvider, new InvisibilityCloakDataGeneration.RecipeGen(packOutput));
+        generator.addProvider(isServerProvider, new InvisibilityCloakDataGeneration.RecipeGen(generator));
 
         // client side generators
-        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.LanguageGen(packOutput, "de_de"));
-        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.LanguageGen(packOutput, "en_us"));
-        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.ItemModelGen(packOutput, existingFileHelper));
+        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.LanguageGen(generator, "de_de"));
+        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.LanguageGen(generator, "en_us"));
+        generator.addProvider(isClientProvider, new InvisibilityCloakDataGeneration.ItemModelGen(generator, existingFileHelper));
     }
 }

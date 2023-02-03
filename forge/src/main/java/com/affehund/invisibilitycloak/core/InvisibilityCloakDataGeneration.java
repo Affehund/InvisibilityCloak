@@ -2,9 +2,8 @@ package com.affehund.invisibilitycloak.core;
 
 import com.affehund.invisibilitycloak.InvisibilityCloakForge;
 import com.affehund.invisibilitycloak.ModConstants;
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
@@ -23,8 +22,9 @@ import java.util.function.Consumer;
 
 public class InvisibilityCloakDataGeneration {
     public static class LanguageGen extends LanguageProvider {
-        public LanguageGen(PackOutput packOutput, String locale) {
-            super(packOutput, ModConstants.MOD_ID, locale);
+
+        public LanguageGen(DataGenerator gen, String locale) {
+            super(gen, ModConstants.MOD_ID, locale);
         }
 
         @Override
@@ -56,22 +56,22 @@ public class InvisibilityCloakDataGeneration {
 
     public static class RecipeGen extends RecipeProvider {
 
-
-        public RecipeGen(PackOutput packOutput) {
-            super(packOutput);
+        public RecipeGen(DataGenerator generator) {
+            super(generator);
         }
 
         @Override
-        protected void buildRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
-            ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, InvisibilityCloakForge.INVISIBILITY_CLOAK_ITEM.get()).pattern("fsf").pattern("ded").pattern("f f")
+        protected void buildCraftingRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
+            ShapedRecipeBuilder.shaped(InvisibilityCloakForge.INVISIBILITY_CLOAK_ITEM.get()).pattern("fsf").pattern("ded").pattern("f f")
                     .define('f', Items.FEATHER).define('s', Items.STRING).define('d', Items.BLACK_DYE)
                     .define('e', Items.ELYTRA).unlockedBy("has_elytra", has(Items.ELYTRA)).save(consumer);
         }
     }
 
     public static class ItemModelGen extends ItemModelProvider {
-        public ItemModelGen(PackOutput packOutput, ExistingFileHelper existingFileHelper) {
-            super(packOutput, ModConstants.MOD_ID, existingFileHelper);
+
+        public ItemModelGen(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+            super(generator, ModConstants.MOD_ID, existingFileHelper);
         }
 
         @Override
